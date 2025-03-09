@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "233820380874",
+    "project_id": "notification-flutter-ea860",
+    "storage_bucket": "notification-flutter-ea860.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233820380874:android:98a25293eb024f54259e33",
+        "android_client_info": {
+          "package_name": "com.example.notifications_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdopHOYAwsqSaga4xR7cit51jwlO7tSyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
