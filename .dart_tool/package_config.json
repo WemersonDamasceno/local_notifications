@@ -86,24 +86,6 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "firebase_database",
-      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/firebase_database-11.3.4",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
-      "name": "firebase_database_platform_interface",
-      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/firebase_database_platform_interface-0.2.6+4",
-      "packageUri": "lib/",
-      "languageVersion": "3.2"
-    },
-    {
-      "name": "firebase_database_web",
-      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/firebase_database_web-0.2.6+10",
-      "packageUri": "lib/",
-      "languageVersion": "3.4"
-    },
-    {
       "name": "firebase_messaging",
       "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/firebase_messaging-15.2.4",
       "packageUri": "lib/",
@@ -380,7 +362,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-03-09T21:08:58.763849Z",
+  "generated": "2025-03-10T11:06:56.978220Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/wemersondamasceno/src/flutter",
