@@ -1,21 +1,48 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class NotificationService {
-  final _firebaseMessaging = FirebaseMessaging.instance;
-  final _localNotificationsPlugin = FlutterLocalNotificationsPlugin();
+abstract class INotificationService {
+  Future<void> initialize();
+  Future<void> saveFcmToken();
+  Future<void> showNotification(RemoteMessage message);
+  Stream<Map<String, dynamic>> get onNotificationTap;
+}
 
-  Future<void> initialize({required Function(String) onTap}) async {
+class NotificationService implements INotificationService {
+  final FirebaseMessaging _firebaseMessaging;
+  final FlutterLocalNotificationsPlugin _localNotificationsPlugin;
+  final FirebaseDatabase _firebaseDatabase;
+  final _notificationStreamController =
+      StreamController<Map<String, dynamic>>.broadcast();
+
+  NotificationService({
+    FirebaseMessaging? firebaseMessaging,
+    FlutterLocalNotificationsPlugin? localNotificationsPlugin,
+    FirebaseDatabase? firebaseDatabase,
+  })  : _firebaseMessaging = firebaseMessaging ?? FirebaseMessaging.instance,
+        _localNotificationsPlugin =
+            localNotificationsPlugin ?? FlutterLocalNotificationsPlugin(),
+        _firebaseDatabase = firebaseDatabase ?? FirebaseDatabase.instance;
+
+  /// Stream para escutar eventos de clique nas notificações
+  @override
+  Stream<Map<String, dynamic>> get onNotificationTap =>
+      _notificationStreamController.stream;
+
+  @override
+  Future<void> initialize() async {
     await _requestNotificationPermissions();
-    await _initializeLocalNotifications(onTap);
+    await _initializeLocalNotifications();
     await _getToken();
     _setupForegroundMessageHandler();
-    _setupBackgroundMessageHandler(onTap);
-    _setupTerminatedMessageHandler(onTap);
+    _setupBackgroundMessageHandler();
+    _setupTerminatedMessageHandler();
   }
 
-  /// Solicita permissões para exibir notificações (iOS)
   Future<void> _requestNotificationPermissions() async {
     await _firebaseMessaging.requestPermission(
       alert: true,
@@ -30,8 +57,7 @@ class NotificationService {
     );
   }
 
-  /// Inicializa as notificações locais
-  Future<void> _initializeLocalNotifications(Function(String) onTap) async {
+  Future<void> _initializeLocalNotifications() async {
     const AndroidInitializationSettings androidSettings =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -46,30 +72,30 @@ class NotificationService {
       settings,
       onDidReceiveNotificationResponse: (NotificationResponse response) {
         if (response.payload != null) {
-          onTap(response.payload!);
+          _notificationStreamController.add(
+            json.decode(response.payload!),
+          );
         }
       },
     );
   }
 
-  /// Obtém o token do dispositivo para envio de notificações
   Future<void> _getToken() async {
     String? token = await _firebaseMessaging.getToken();
     print("Token do dispositivo: $token");
   }
 
+  @override
   Future<void> saveFcmToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-
+    String? token = await _firebaseMessaging.getToken();
     String? userId = 'user-wemerson';
 
     if (token != null) {
-      DatabaseReference ref = FirebaseDatabase.instance.ref("users/$userId");
+      DatabaseReference ref = _firebaseDatabase.ref("users/$userId");
       await ref.update({"fcmToken": token});
     }
   }
 
-  /// Trata notificações recebidas **em primeiro plano** e exibe via local notification
   void _setupForegroundMessageHandler() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
@@ -78,7 +104,7 @@ class NotificationService {
     });
   }
 
-  /// Exibe a notificação usando `flutter_local_notifications`
+  @override
   Future<void> showNotification(RemoteMessage message) async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
@@ -96,26 +122,24 @@ class NotificationService {
       message.notification?.title,
       message.notification?.body,
       platformDetails,
-      payload: message.data['score'],
+      payload: jsonEncode(message.data),
     );
   }
 
-  /// Trata notificações quando o app está **minimizado** (segundo plano)
-  void _setupBackgroundMessageHandler(Function(String) onTap) {
+  void _setupBackgroundMessageHandler() {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      if (message.data['score'] != null) {
-        onTap(message.data['score']);
+      if (message.data.isNotEmpty) {
+        _notificationStreamController.add(message.data);
       }
     });
   }
 
-  /// Trata notificações quando o app estava **fechado (terminated)**
-  Future<void> _setupTerminatedMessageHandler(Function(String) onTap) async {
+  Future<void> _setupTerminatedMessageHandler() async {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
 
-    if (initialMessage != null && initialMessage.data['score'] != null) {
-      onTap(initialMessage.data['score']);
+    if (initialMessage != null && initialMessage.data.isNotEmpty) {
+      _notificationStreamController.add(initialMessage.data);
     }
   }
 }
