@@ -19,7 +19,7 @@ class NotificationService {
   Future<void> initialize() async {
     await PermissionService.requestPermissions();
     await _initializeLocalNotifications();
-    await _getToken();
+    await _getDeviceFcmToken();
 
     // Metodos que escutam os eventos
     _setupForegroundMessageHandler();
@@ -47,7 +47,7 @@ class NotificationService {
     );
   }
 
-  Future<void> _getToken() async {
+  Future<void> _getDeviceFcmToken() async {
     String? token = await _firebaseMessaging.getToken();
     print("Token do dispositivo: $token");
   }
