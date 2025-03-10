@@ -1,6 +1,16 @@
-# Configuração de Notificações Push com Imagem no Flutter
+# Notificações Push com Imagem no Flutter
 
 Este documento fornece instruções para configurar notificações push utilizando Firebase Cloud Messaging (FCM) com imagens no Flutter. Todas as partes essenciais do código estão incluídas para facilitar a implementação.
+
+---
+
+
+## 0. Após implementação
+
+
+https://github.com/user-attachments/assets/5046027e-75fa-48b3-b53c-c924e677b7cb
+
+
 
 ---
 
