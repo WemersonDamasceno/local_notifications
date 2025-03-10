@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/services/notification_service.dart';
 import 'package:notifications_firebase/views/on_pressed_button_teste.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -55,6 +56,38 @@ class _HomePageState extends State<HomePage> {
           ElevatedButton(
             onPressed: () => onPressed(),
             child: const Text('Exibir notificação'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (!await launchUrl(
+                Uri.parse(
+                    'https://serasaempreendedor.com.br/cadastro-deslogado'),
+              )) {
+                throw Exception('Could not launch');
+              }
+            },
+            child: const Text('Regatar Senha'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (!await launchUrl(
+                Uri.parse(
+                    'https://serasaempreendedor.com.br/cadastro/resgatar-senha'),
+              )) {
+                throw Exception('Could not launch');
+              }
+            },
+            child: const Text('Cadastro deslogado'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (!await launchUrl(
+                Uri.parse('https://google.com'),
+              )) {
+                throw Exception('Could not launch');
+              }
+            },
+            child: const Text('Google'),
           ),
         ],
       ),
