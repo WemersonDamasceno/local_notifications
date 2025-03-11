@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/services/notification_service.dart';
-import 'package:notifications_firebase/views/dynamic_input/custom_input_widget.dart';
+import 'package:notifications_firebase/views/cpf_cnpj_input.dart/cpf_cnpj_formatter.dart';
+import 'package:notifications_firebase/views/custom_input_widget.dart';
+import 'package:notifications_firebase/views/dynamic_input/phone_or_email_formatter.dart';
 import 'package:notifications_firebase/views/on_pressed_button_teste.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -13,7 +15,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _notificationService = NotificationService();
-  final inputController = TextEditingController();
+  final foneEmailController = TextEditingController();
+  final cpfCnpjController = TextEditingController();
 
   @override
   void initState() {
@@ -75,7 +78,18 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: CustomInputWidget(
-                controller: inputController,
+                label: 'Fone/Email',
+                formatters: [PhoneOrEmailFormatter()],
+                controller: foneEmailController,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: CustomInputWidget(
+                label: 'CPF/CNPJ',
+                keyboardType: TextInputType.number,
+                formatters: [CpfCnpjFormatter()],
+                controller: cpfCnpjController,
               ),
             ),
           ],
