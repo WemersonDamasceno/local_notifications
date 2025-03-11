@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:notifications_firebase/views/dynamic_input/extension_string.dart';
+import 'package:notifications_firebase/views/inputs/extensions/extension_string.dart';
 
 class PhoneOrEmailFormatter extends TextInputFormatter {
   @override

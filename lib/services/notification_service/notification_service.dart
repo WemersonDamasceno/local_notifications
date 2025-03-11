@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:notifications_firebase/services/path_service.dart';
-import 'package:notifications_firebase/services/permission_service.dart';
+import 'package:notifications_firebase/services/notification_service/path_service.dart';
+import 'package:notifications_firebase/services/notification_service/permission_service.dart';
 
 class NotificationService {
   final _firebaseMessaging = FirebaseMessaging.instance;

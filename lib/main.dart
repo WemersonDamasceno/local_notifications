@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:notifications_firebase/services/notification_service.dart';
+import 'package:notifications_firebase/services/notification_service/notification_service.dart';
 import 'package:notifications_firebase/views/home_page.dart';
-import 'package:notifications_firebase/views/score_page.dart';
+import 'package:notifications_firebase/views/score/score_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
