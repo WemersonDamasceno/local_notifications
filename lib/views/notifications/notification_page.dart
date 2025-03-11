@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/services/notification_service/notification_service.dart';
-import 'package:notifications_firebase/views/inputs/inputs_page.dart';
-import 'package:notifications_firebase/views/notifications/notification_page.dart';
-import 'package:notifications_firebase/views/url_launcher/url_launcher_page.dart';
-import 'package:notifications_firebase/views/widgets/custom_buttom_widget.dart';
+import 'package:notifications_firebase/views/notifications/on_pressed_button_teste.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _NotificationPageState extends State<NotificationPage> {
   final _notificationService = NotificationService();
-  final foneEmailController = TextEditingController();
-  final cpfCnpjController = TextEditingController();
 
   @override
   void initState() {
@@ -49,29 +44,28 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('POCs'),
-        centerTitle: true,
+        title: const Text('Appbar - Home Page'),
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            CustomButtomWidget(
-              title: 'Exibir notificação',
-              goToPage: NotificationPage(),
-            ),
-            CustomButtomWidget(
-              title: 'Inputs Page',
-              goToPage: InputsPage(),
-            ),
-            CustomButtomWidget(
-              title: 'Url Launcher',
-              goToPage: UrlLauncherPage(),
+            const Center(child: Text('Home Page')),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () => onPressed(),
+              child: const Text('Exibir notificação'),
             ),
           ],
         ),
       ),
     );
+  }
+
+  onPressed() {
+    String imageUrl =
+        'https://ipnews.com.br/wp-content/uploads/2021/05/serasa-score.png';
+    sendNotification(imageUrl);
   }
 }
