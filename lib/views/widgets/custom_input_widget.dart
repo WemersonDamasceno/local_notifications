@@ -6,6 +6,7 @@ class CustomInputWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final TextInputType? keyboardType;
+  final Function(String?)? validator;
 
   const CustomInputWidget({
     super.key,
@@ -13,11 +14,12 @@ class CustomInputWidget extends StatelessWidget {
     required this.label,
     required this.formatters,
     this.keyboardType,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
       inputFormatters: formatters,
       keyboardType: keyboardType,
@@ -29,6 +31,7 @@ class CustomInputWidget extends StatelessWidget {
         ),
         border: const UnderlineInputBorder(),
       ),
+      validator: validator != null ? (value) => validator!(value) : null,
     );
   }
 }

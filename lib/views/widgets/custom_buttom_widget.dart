@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomButtomWidget extends StatelessWidget {
   final String title;
-  final Widget goToPage;
+
+  final VoidCallback onPressed;
   const CustomButtomWidget({
     super.key,
     required this.title,
-    required this.goToPage,
+    required this.onPressed,
   });
 
   @override
@@ -22,11 +23,7 @@ class CustomButtomWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return goToPage;
-          }));
-        },
+        onPressed: () => onPressed(),
         child: Text(
           title,
           style: Theme.of(context)

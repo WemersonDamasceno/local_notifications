@@ -52,22 +52,34 @@ class _HomePageState extends State<HomePage> {
         title: const Text('POCs'),
         centerTitle: true,
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomButtomWidget(
               title: 'Exibir notificação',
-              goToPage: NotificationPage(),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const NotificationPage();
+                }));
+              },
             ),
             CustomButtomWidget(
               title: 'Inputs Page',
-              goToPage: InputsPage(),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const InputsPage();
+                }));
+              },
             ),
             CustomButtomWidget(
               title: 'Url Launcher',
-              goToPage: UrlLauncherPage(),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const UrlLauncherPage();
+                }));
+              },
             ),
           ],
         ),
