@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:notifications_firebase/views/dynamic_input/extension_string.dart';
 
 class PhoneOrEmailFormatter extends TextInputFormatter {
   @override
@@ -8,46 +9,32 @@ class PhoneOrEmailFormatter extends TextInputFormatter {
   ) {
     String text = newValue.text;
 
-    // Quando o texto contém letras, não fazemos a formatação
-    if (RegExp(r'[a-zA-Z]').hasMatch(text)) {
-      // Remover caracteres especiais como ( ) - e espaços
-      text = text.replaceAll(RegExp(r'[()\s-]'), '');
-      return TextEditingValue(
-        text: text,
-        selection: newValue.selection.copyWith(
-          baseOffset: text.length,
-          extentOffset: text.length,
-        ),
-      );
-    }
-
-    // Se o texto não contiver letras, fazemos a formatação de número de telefone
-    // Remove tudo que não for número
-    text = text.replaceAll(RegExp(r'\D'), '');
-
-    // Limita o tamanho do número para 11 dígitos
-    if (text.length > 11) {
-      text = text.substring(0, 11);
-    }
-
-    // Aplicar a formatação de telefone
-    String formattedText;
-    if (text.length <= 2) {
-      formattedText = text;
-    } else if (text.length <= 7) {
-      formattedText = '(${text.substring(0, 2)}) ${text.substring(2)}';
+    if (text.containsLetter) {
+      text = text.removeSpecialCharacters;
     } else {
-      formattedText =
-          '(${text.substring(0, 2)}) ${text.substring(2, 7)}-${text.substring(7)}';
+      text = text.removeNonDigits;
+      text = _formatPhoneNumber(text);
     }
 
-    // Ajustar a posição do cursor
     return TextEditingValue(
-      text: formattedText,
+      text: text,
       selection: newValue.selection.copyWith(
-        baseOffset: formattedText.length,
-        extentOffset: formattedText.length,
+        baseOffset: text.length,
+        extentOffset: text.length,
       ),
     );
+  }
+
+  /// Formata um número de telefone
+  String _formatPhoneNumber(String text) {
+    text = text.substring(0, text.length.clamp(0, 11));
+
+    final patterns = [
+      if (text.length > 2) '(${text.substring(0, 2)}) ',
+      if (text.length > 7) '${text.substring(2, 7)}-',
+      text.length > 2 ? text.substring(text.length > 7 ? 7 : 2) : text,
+    ];
+
+    return patterns.join();
   }
 }
