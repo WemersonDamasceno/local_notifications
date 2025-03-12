@@ -1,151 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:notifications_firebase/views/score/score_widget.dart';
-import 'package:notifications_firebase/views/score/teste.dart';
+import 'package:notifications_firebase/views/score/widgets/score_card.dart';
+import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
 
 class ScorePage extends StatelessWidget {
-  final String score;
+  final double score;
 
   const ScorePage({super.key, required this.score});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Score'),
+      appBar: const PreferredSize(
+        preferredSize: Size(double.infinity, kToolbarHeight),
+        child: AppBarWidget(),
       ),
+      backgroundColor: const Color(0xFFeff0f0),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ScoreCard(score: double.parse(score)),
-            const SizedBox(height: 24),
-            // ScoreProgressBar(score: 500),
+            ScoreCard(score: score),
           ],
         ),
       ),
     );
   }
-}
-
-class ScoreProgressBar extends StatelessWidget {
-  final double score;
-
-  const ScoreProgressBar({super.key, required this.score});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double availableWidth = constraints.maxWidth;
-        return CustomPaint(
-          size: Size(availableWidth, 16),
-          painter: ScoreProgressPainter2(score),
-        );
-      },
-    );
-  }
-}
-
-class ScoreProgressPainter extends CustomPainter {
-  final double score;
-
-  ScoreProgressPainter(this.score);
-
-  final List<double> segmentPercents = [0.25, 0.18, 0.12, 0.45];
-  final double spacing = 8.0;
-  final Color barColor = Colors.green;
-  final Color backgroundColor = Colors.grey.withOpacity(0.3);
-  final double maxScore = 1000;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    double currentX = 0;
-    double accumulatedScore = 0;
-
-    // Desenha todos os segmentos de fundo (cinza)
-    for (int i = 0; i < segmentPercents.length; i++) {
-      double segmentWidth = segmentPercents[i] * size.width;
-      double segmentScore = segmentPercents[i] * maxScore;
-      accumulatedScore += segmentScore;
-
-      // Desenha o fundo do segmento (sempre cinza)
-      final Paint backgroundPaint = Paint()
-        ..color = backgroundColor
-        ..style = PaintingStyle.fill;
-
-      double leftRadius = (i == 0) ? 10 : 0;
-      double rightRadius = (i == segmentPercents.length - 1) ? 10 : 0;
-
-      canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(currentX, 0, segmentWidth, size.height),
-          topLeft: Radius.circular(leftRadius),
-          bottomLeft: Radius.circular(leftRadius),
-          topRight: Radius.circular(rightRadius),
-          bottomRight: Radius.circular(rightRadius),
-        ),
-        backgroundPaint,
-      );
-
-      currentX += segmentWidth + spacing;
-    }
-
-    // Agora, desenha os segmentos verdes (preenchidos) de acordo com a pontuação
-    currentX = 0;
-    accumulatedScore = 0;
-
-    for (int i = 0; i < segmentPercents.length; i++) {
-      double segmentWidth = segmentPercents[i] * size.width;
-      double segmentScore = segmentPercents[i] * maxScore;
-      accumulatedScore += segmentScore;
-
-      // Configuração da pintura do segmento preenchido (verde)
-      final Paint segmentPaint = Paint()
-        ..color = barColor
-        ..style = PaintingStyle.fill;
-
-      double leftRadius = (i == 0) ? 10 : 0;
-      double rightRadius = (i == segmentPercents.length - 1) ? 10 : 0;
-      if (score <= accumulatedScore) {
-        rightRadius = 10;
-      }
-
-      if (score >= accumulatedScore) {
-        // Preenche o segmento completo
-        canvas.drawRRect(
-          RRect.fromRectAndCorners(
-            Rect.fromLTWH(currentX, 0, segmentWidth, size.height),
-            topLeft: Radius.circular(leftRadius),
-            bottomLeft: Radius.circular(leftRadius),
-            topRight: Radius.circular(rightRadius),
-            bottomRight: Radius.circular(rightRadius),
-          ),
-          segmentPaint,
-        );
-      } else if (score > accumulatedScore - segmentScore) {
-        // Preenche parcialmente o segmento atual
-        double fillPercent =
-            (score - (accumulatedScore - segmentScore)) / segmentScore;
-        double fillWidth = fillPercent * segmentWidth;
-
-        canvas.drawRRect(
-          RRect.fromRectAndCorners(
-            Rect.fromLTWH(currentX, 0, fillWidth, size.height),
-            topLeft: Radius.circular(leftRadius),
-            bottomLeft: Radius.circular(leftRadius),
-            topRight: Radius.circular(rightRadius),
-            bottomRight: Radius.circular(rightRadius),
-          ),
-          segmentPaint,
-        );
-        break; // Sai do loop pois não há mais preenchimento necessário
-      }
-
-      currentX += segmentWidth + spacing;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
 }

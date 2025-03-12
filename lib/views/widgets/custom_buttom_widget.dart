@@ -20,7 +20,7 @@ class CustomButtomWidget extends StatelessWidget {
           backgroundColor: Colors.black,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(8),
           ),
         ),
         onPressed: () => onPressed(),

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         if (settings.name == '/score_page') {
           final String score = settings.arguments as String;
           return MaterialPageRoute(
-            builder: (context) => ScorePage(score: score),
+            builder: (context) => ScorePage(score: double.parse(score)),
           );
         }
         return null;

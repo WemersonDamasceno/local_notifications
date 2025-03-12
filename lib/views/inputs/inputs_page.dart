@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notifications_firebase/views/inputs/formatters/cpf_cnpj_input/cpf_cnpj_formatter.dart';
 import 'package:notifications_firebase/views/inputs/formatters/cpf_cnpj_input/cpf_cnpj_validator.dart';
 import 'package:notifications_firebase/views/inputs/formatters/phone_email_formatter/phone_or_email_formatter.dart';
+import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
 import 'package:notifications_firebase/views/widgets/custom_buttom_widget.dart';
 import 'package:notifications_firebase/views/widgets/custom_input_widget.dart';
 import 'package:nova_design_system/nova_design_system.dart';
@@ -34,8 +35,9 @@ class _InputsPageState extends State<InputsPage> with UISnackbarMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appbar - Inputs Page'),
+      appBar: const PreferredSize(
+        preferredSize: Size(double.infinity, kToolbarHeight),
+        child: AppBarWidget(),
       ),
       body: SingleChildScrollView(
         child: Form(

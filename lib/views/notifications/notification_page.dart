@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/services/notification_service/notification_service.dart';
 import 'package:notifications_firebase/views/notifications/on_pressed_button_teste.dart';
+import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -43,8 +44,9 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Appbar - Home Page'),
+      appBar: const PreferredSize(
+        preferredSize: Size(double.infinity, kToolbarHeight),
+        child: AppBarWidget(),
       ),
       body: SingleChildScrollView(
         child: Column(

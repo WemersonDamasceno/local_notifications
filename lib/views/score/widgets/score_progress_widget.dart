@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:notifications_firebase/views/score/widgets/row_score_widget.dart';
 
-class ScoreProgressPainter2 extends CustomPainter {
+class ScoreProgressBarWidget extends StatelessWidget {
   final double score;
+  final Color barColor;
 
-  ScoreProgressPainter2(this.score);
+  const ScoreProgressBarWidget({
+    super.key,
+    required this.score,
+    required this.barColor,
+  });
 
-  final List<double> segmentPercents = [0.25, 0.18, 0.12, 0.45];
-  final double spacing = 8.0;
-  final Color barColor = Colors.green;
-  final Color backgroundColor = Colors.grey.withOpacity(0.3);
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Column(
+          children: [
+            CustomPaint(
+              size: Size(constraints.maxWidth, 12),
+              painter: ScoreProgressPainter(
+                score: score,
+                barColor: barColor,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const RowScoreWidget(),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class ScoreProgressPainter extends CustomPainter {
+  final double score;
+  final Color barColor;
+  final Color backgroundColor;
+
+  final List<double> segmentPercents = [0.10, 0.13, 0.20, 0.57];
+  final double spacing = 4.0;
   final double maxScore = 1000;
+
+  ScoreProgressPainter({
+    super.repaint,
+    required this.score,
+    required this.barColor,
+    this.backgroundColor = const Color(0xFFcccccc),
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -31,9 +69,11 @@ class ScoreProgressPainter2 extends CustomPainter {
         ..color = backgroundColor
         ..style = PaintingStyle.fill;
 
+      // Calcula o valor para os radius da barra cinza
       double leftRadius = (i == 0) ? 10 : 0;
       double rightRadius = (i == segmentPercents.length - 1) ? 10 : 0;
 
+      // Desenha os seguimentos cinzas
       canvas.drawRRect(
         RRect.fromRectAndCorners(
           Rect.fromLTWH(currentX, 0, segmentWidth, size.height),
@@ -45,6 +85,7 @@ class ScoreProgressPainter2 extends CustomPainter {
         backgroundPaint,
       );
 
+      // Avança para o próximo segment
       currentX += segmentWidth + spacing;
     }
 
@@ -62,14 +103,16 @@ class ScoreProgressPainter2 extends CustomPainter {
         ..color = barColor
         ..style = PaintingStyle.fill;
 
+      // Adiciona o radios para o primeiro item do lado esquerdo
       double leftRadius = (i == 0) ? 10 : 0;
       double rightRadius = (i == segmentPercents.length - 1) ? 10 : 0;
       if (score <= accumulatedScore) {
         rightRadius = 10;
       }
 
+      // Se o valor do score for maior que o daquele seguimento
+      // preenche o segmento completo
       if (score >= accumulatedScore) {
-        // Preenche o segmento completo
         canvas.drawRRect(
           RRect.fromRectAndCorners(
             Rect.fromLTWH(currentX, 0, segmentWidth, size.height),
@@ -96,9 +139,10 @@ class ScoreProgressPainter2 extends CustomPainter {
           ),
           segmentPaint,
         );
-        break; // Sai do loop pois não há mais preenchimento necessário
+        break;
       }
 
+      // Avança para o próximo segment
       currentX += segmentWidth + spacing;
     }
   }
