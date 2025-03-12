@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -19,7 +20,12 @@ class NotificationService {
   Future<void> initialize() async {
     await PermissionService.requestPermissions();
     await _initializeLocalNotifications();
-    await _getDeviceFcmToken();
+
+    // if adicionado até que o token APNS esteja configurado
+    // ou seja, só irá funcionar no Android por enquanto.
+    if (Platform.isAndroid) {
+      await _getDeviceFcmToken();
+    }
 
     // Metodos que escutam os eventos
     _setupForegroundMessageHandler();
@@ -76,27 +82,41 @@ class NotificationService {
 
   Future<void> _showNotification(RemoteMessage message) async {
     final styleInformation = await _getImageNotification(
-        imageUrl: message.notification?.android?.imageUrl);
+      imageUrl: message.notification?.android?.imageUrl,
+    );
+    final imageiOSNotification = await PathService.downloadAndSaveFile(
+      message.notification?.apple?.imageUrl,
+      'image.jpg',
+    );
 
     final notificationDetails = NotificationDetails(
-      android: AndroidNotificationDetails(
-        'fcm_notification_channel',
-        'Fcm Notification Channel',
-        importance: Importance.max,
-        priority: Priority.high,
-        enableVibration: true,
-        playSound: true,
-        category: AndroidNotificationCategory.message,
-        icon: '@mipmap/ic_notification',
-        largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
-        styleInformation: styleInformation,
-      ),
-      iOS: const DarwinNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true,
-      ),
-    );
+        android: AndroidNotificationDetails(
+          'fcm_notification_channel',
+          'Fcm Notification Channel',
+          importance: Importance.max,
+          priority: Priority.high,
+          enableVibration: true,
+          playSound: true,
+          category: AndroidNotificationCategory.message,
+          icon: '@mipmap/ic_notification',
+          largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+          styleInformation: styleInformation,
+        ),
+        iOS: DarwinNotificationDetails(
+          presentAlert: true,
+          presentBadge: true,
+          presentSound: true,
+          presentBanner: true,
+          attachments: imageiOSNotification == null
+              ? null
+              : [
+                  DarwinNotificationAttachment(
+                    imageiOSNotification,
+                    identifier: 'notification_identify',
+                    hideThumbnail: false,
+                  ),
+                ],
+        ));
 
     await _localNotificationsPlugin.show(
       message.ttl ?? 0,
@@ -110,9 +130,7 @@ class NotificationService {
   Future<BigPictureStyleInformation?> _getImageNotification({
     required String? imageUrl,
   }) async {
-    if (imageUrl == null) {
-      return null;
-    }
+    if (imageUrl == null) return null;
 
     String? filePath = await PathService.downloadAndSaveFile(
       imageUrl,

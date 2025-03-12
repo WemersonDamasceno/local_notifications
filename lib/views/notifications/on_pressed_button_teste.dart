@@ -6,15 +6,17 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
 final notificationsPlugin = FlutterLocalNotificationsPlugin();
+int id = 0;
 
 Future<void> sendNotification(String? urlImage) async {
   final styleInformation = await _getImageNotification(
-    imageUrl: null,
+    imageUrl: urlImage,
   );
+  final imageAsset = await _downloadAndSaveFile(urlImage, 'notification.jpg');
 
   final androidDetails = AndroidNotificationDetails(
-    'channel_id',
-    'channel_name',
+    'com.example.notifications_firebase',
+    'Notifications for App POC',
     importance: Importance.max,
     priority: Priority.high,
     playSound: true,
@@ -24,10 +26,20 @@ Future<void> sendNotification(String? urlImage) async {
     styleInformation: styleInformation,
   );
 
-  const iOSDetails = DarwinNotificationDetails(
+  final iOSDetails = DarwinNotificationDetails(
     presentAlert: true,
     presentBadge: true,
     presentSound: true,
+    presentBanner: true,
+    attachments: imageAsset == null
+        ? null
+        : [
+            DarwinNotificationAttachment(
+              imageAsset,
+              identifier: 'notification_identify',
+              hideThumbnail: false,
+            ),
+          ],
   );
 
   final NotificationDetails notificationDetails = NotificationDetails(
@@ -36,16 +48,17 @@ Future<void> sendNotification(String? urlImage) async {
   );
 
   final payload = jsonEncode({
-    'page': 'app://home/score_page/score?value=435.5',
+    'page': 'app://home/score_page/score?value=680',
   });
 
   await notificationsPlugin.show(
-    0,
+    id,
     'Seu score mudou! 🎉',
     'Seu score mudou, veja agora mesmo seu novo score 🤩',
     notificationDetails,
     payload: payload,
   );
+  id++;
 }
 
 Future<BigPictureStyleInformation?> _getImageNotification({
@@ -64,8 +77,9 @@ Future<BigPictureStyleInformation?> _getImageNotification({
   return bigPictureStyle;
 }
 
-Future<String?> _downloadAndSaveFile(String url, String fileName) async {
+Future<String?> _downloadAndSaveFile(String? url, String fileName) async {
   try {
+    if (url == null) return null;
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       final Directory tempDir = await getTemporaryDirectory();

@@ -6,8 +6,9 @@ import 'package:path_provider/path_provider.dart';
 /// Implementação do serviço de manipulação de arquivos
 class PathService {
   static Future<String?> downloadAndSaveFile(
-      String url, String fileName) async {
+      String? url, String fileName) async {
     try {
+      if (url == null) return null;
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final Directory tempDir = await getTemporaryDirectory();
