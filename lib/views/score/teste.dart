@@ -1,56 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:notifications_firebase/views/score/score_widget.dart';
-import 'package:notifications_firebase/views/score/teste.dart';
 
-class ScorePage extends StatelessWidget {
-  final String score;
-
-  const ScorePage({super.key, required this.score});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Score'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ScoreCard(score: double.parse(score)),
-            const SizedBox(height: 24),
-            // ScoreProgressBar(score: 500),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ScoreProgressBar extends StatelessWidget {
+class ScoreProgressPainter2 extends CustomPainter {
   final double score;
 
-  const ScoreProgressBar({super.key, required this.score});
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        double availableWidth = constraints.maxWidth;
-        return CustomPaint(
-          size: Size(availableWidth, 16),
-          painter: ScoreProgressPainter2(score),
-        );
-      },
-    );
-  }
-}
-
-class ScoreProgressPainter extends CustomPainter {
-  final double score;
-
-  ScoreProgressPainter(this.score);
+  ScoreProgressPainter2(this.score);
 
   final List<double> segmentPercents = [0.25, 0.18, 0.12, 0.45];
   final double spacing = 8.0;
@@ -63,9 +16,13 @@ class ScoreProgressPainter extends CustomPainter {
     double currentX = 0;
     double accumulatedScore = 0;
 
+    // Ajustando a largura disponível para os segmentos, considerando o espaçamento
+    double totalSpacing = (segmentPercents.length - 1) * spacing;
+    double availableWidth = size.width - totalSpacing;
+
     // Desenha todos os segmentos de fundo (cinza)
     for (int i = 0; i < segmentPercents.length; i++) {
-      double segmentWidth = segmentPercents[i] * size.width;
+      double segmentWidth = segmentPercents[i] * availableWidth;
       double segmentScore = segmentPercents[i] * maxScore;
       accumulatedScore += segmentScore;
 
@@ -96,7 +53,7 @@ class ScoreProgressPainter extends CustomPainter {
     accumulatedScore = 0;
 
     for (int i = 0; i < segmentPercents.length; i++) {
-      double segmentWidth = segmentPercents[i] * size.width;
+      double segmentWidth = segmentPercents[i] * availableWidth;
       double segmentScore = segmentPercents[i] * maxScore;
       accumulatedScore += segmentScore;
 
