@@ -81,42 +81,40 @@ class NotificationService {
   }
 
   Future<void> _showNotification(RemoteMessage message) async {
-    final styleInformation = await _getImageNotification(
-      imageUrl: message.notification?.android?.imageUrl,
-    );
-    final imageiOSNotification = await PathService.downloadAndSaveFile(
-      message.notification?.apple?.imageUrl,
+    String? imageUrl = Platform.isAndroid
+        ? message.notification?.android?.imageUrl
+        : message.notification?.apple?.imageUrl;
+
+    String? filePath = await PathService.downloadAndSaveFile(
+      imageUrl,
       'image.jpg',
     );
 
+    final androidDetails = AndroidNotificationDetails(
+      'fcm_notification_channel',
+      'Fcm Notification Channel',
+      importance: Importance.max,
+      priority: Priority.high,
+      enableVibration: true,
+      playSound: true,
+      category: AndroidNotificationCategory.message,
+      icon: '@mipmap/ic_notification',
+      largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+      styleInformation: _styleInformation(filePath),
+    );
+
+    final iOSDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+      presentBanner: true,
+      attachments: _getAttachments(filePath),
+    );
+
     final notificationDetails = NotificationDetails(
-        android: AndroidNotificationDetails(
-          'fcm_notification_channel',
-          'Fcm Notification Channel',
-          importance: Importance.max,
-          priority: Priority.high,
-          enableVibration: true,
-          playSound: true,
-          category: AndroidNotificationCategory.message,
-          icon: '@mipmap/ic_notification',
-          largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
-          styleInformation: styleInformation,
-        ),
-        iOS: DarwinNotificationDetails(
-          presentAlert: true,
-          presentBadge: true,
-          presentSound: true,
-          presentBanner: true,
-          attachments: imageiOSNotification == null
-              ? null
-              : [
-                  DarwinNotificationAttachment(
-                    imageiOSNotification,
-                    identifier: 'notification_identify',
-                    hideThumbnail: false,
-                  ),
-                ],
-        ));
+      android: androidDetails,
+      iOS: iOSDetails,
+    );
 
     await _localNotificationsPlugin.show(
       message.ttl ?? 0,
@@ -127,16 +125,19 @@ class NotificationService {
     );
   }
 
-  Future<BigPictureStyleInformation?> _getImageNotification({
-    required String? imageUrl,
-  }) async {
-    if (imageUrl == null) return null;
+  List<DarwinNotificationAttachment>? _getAttachments(String? filePath) {
+    return filePath == null
+        ? null
+        : [
+            DarwinNotificationAttachment(
+              filePath,
+              identifier: 'notification_identify',
+              hideThumbnail: false,
+            ),
+          ];
+  }
 
-    String? filePath = await PathService.downloadAndSaveFile(
-      imageUrl,
-      'image.jpg',
-    );
-
+  BigPictureStyleInformation _styleInformation(String? filePath) {
     return BigPictureStyleInformation(
       filePath != null
           ? FilePathAndroidBitmap(filePath)
