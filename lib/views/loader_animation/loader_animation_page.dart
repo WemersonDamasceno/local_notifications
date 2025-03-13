@@ -20,7 +20,9 @@ class LoaderAnimationPage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: size.height * 0.25),
-            const LoaderAnimationWidget(),
+            const LoaderAnimationWidget(
+              durationInMillisecs: 600,
+            ),
           ],
         ),
       ),
