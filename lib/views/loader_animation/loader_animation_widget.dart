@@ -24,7 +24,7 @@ class _LoaderAnimationWidgetState extends State<LoaderAnimationWidget>
   }
 
   void _initializeAnimations() {
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
       final controller = AnimationController(
         vsync: this,
         duration: Duration(milliseconds: widget.durationInMillisecs),
@@ -42,7 +42,9 @@ class _LoaderAnimationWidgetState extends State<LoaderAnimationWidget>
   }
 
   void _startAnimationsWithDelay() {
-    for (int i = 0; i < _controllers.length; i++) {
+    _controllers[5].forward();
+    _controllers[0].repeat(reverse: true);
+    for (int i = 1; i < _controllers.length - 1; i++) {
       Future.delayed(Duration(milliseconds: i * 250), () {
         if (mounted) _controllers[i].repeat(reverse: true);
       });
@@ -139,9 +141,17 @@ class _LoaderAnimationWidgetState extends State<LoaderAnimationWidget>
             left: 27.7,
             size: 20,
           ),
-          SvgPicture.asset(
-            'assets/images/logo.svg',
-            width: 29,
+          AnimatedBuilder(
+            animation: _animations[5],
+            builder: (context, child) {
+              return Transform.scale(
+                scale: _animations[5].value,
+                child: SvgPicture.asset(
+                  'assets/images/logo.svg',
+                  width: 29,
+                ),
+              );
+            },
           ),
         ],
       ),
