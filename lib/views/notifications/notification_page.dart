@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notifications_firebase/services/notification_service/notification_service.dart';
 import 'package:notifications_firebase/views/notifications/on_pressed_button_teste.dart';
 import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
+import 'package:notifications_firebase/views/widgets/custom_buttom_widget.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -43,23 +44,28 @@ class _NotificationPageState extends State<NotificationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size(double.infinity, kToolbarHeight),
         child: AppBarWidget(),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Center(child: Text('Home Page')),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => onPressed(),
-              child: const Text('Exibir notificação'),
-            ),
-          ],
+        child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: CustomButtomWidget(
+                  onPressed: () => onPressed(),
+                  title: 'Enviar notificação',
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

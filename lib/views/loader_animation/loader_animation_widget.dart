@@ -27,7 +27,9 @@ class _LoaderAnimationWidgetState extends State<LoaderAnimationWidget>
     for (int i = 0; i < 6; i++) {
       final controller = AnimationController(
         vsync: this,
-        duration: Duration(milliseconds: widget.durationInMillisecs),
+        duration: Duration(
+          milliseconds: i == 5 ? 700 : widget.durationInMillisecs,
+        ),
       );
 
       final animation = Tween<double>(begin: 0.0, end: 0.9).animate(

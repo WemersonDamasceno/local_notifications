@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/views/loader_animation/loader_animation_widget.dart';
+import 'package:notifications_firebase/views/score/score_page.dart';
 import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
 
 class LoaderAnimationPage extends StatefulWidget {
@@ -17,7 +18,10 @@ class _LoaderAnimationPageState extends State<LoaderAnimationPage> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 3)).then((value) {
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const ScorePage(score: 550)),
+      );
     });
   }
 

@@ -27,22 +27,34 @@ class ScoreCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  '${score.toInt()}',
-                  style: const TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF333333),
-                  ),
+                TweenAnimationBuilder<int>(
+                  duration: const Duration(seconds: 1),
+                  tween: IntTween(begin: 0, end: score.toInt()),
+                  builder: (context, value, child) {
+                    return Text(
+                      '$value',
+                      style: const TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF333333),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(width: 8),
                 const StatusScoreWidget(statusScore: 'Boa'),
               ],
             ),
             const SizedBox(height: 12),
-            ScoreProgressBarWidget(
-              score: score,
-              barColor: const Color(0xFFb4e648),
+            TweenAnimationBuilder<double>(
+              duration: const Duration(seconds: 1),
+              tween: Tween<double>(begin: 0, end: score),
+              builder: (context, animatedScore, child) {
+                return ScoreProgressBarWidget(
+                  score: animatedScore,
+                  barColor: const Color(0xFFb4e648),
+                );
+              },
             ),
             const SizedBox(height: 12),
             Center(
