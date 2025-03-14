@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/services/notification_service/notification_service.dart';
-import 'package:notifications_firebase/views/home_page.dart';
+import 'package:notifications_firebase/views/navigation_page.dart';
 import 'package:notifications_firebase/views/score/score_page.dart';
 
 void main() async {
@@ -18,8 +18,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       routes: {
-        '/': (context) => const HomePage(),
+        '/': (context) => const NavigationPage(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/score_page') {
