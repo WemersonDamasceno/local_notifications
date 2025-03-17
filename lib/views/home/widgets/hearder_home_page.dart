@@ -7,12 +7,9 @@ class HearderHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       alignment: Alignment.topLeft,
-      height: screenHeight * 0.27,
-      color: const Color(0xFF71207a),
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -7,7 +7,7 @@ class HomeAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: const Color(0xFF71207a),
+      backgroundColor: const Color(0xff77127b),
       foregroundColor: Colors.white,
       leading: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -15,8 +15,7 @@ class FeatureCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    return SizedBox(
       width: size.width,
       child: Card(
         elevation: 4,

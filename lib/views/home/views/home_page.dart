@@ -9,84 +9,97 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF71207a),
-      appBar: const PreferredSize(
-        preferredSize: Size(double.infinity, kToolbarHeight),
+    return const Scaffold(
+      backgroundColor: Color(0xff77127b),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kToolbarHeight),
         child: HomeAppBar(),
       ),
       body: SingleChildScrollView(
-        child: Column(
+        physics: ClampingScrollPhysics(),
+        child: Stack(
           children: [
-            _buildHeader(context),
-            const SizedBox(height: 130),
-            _buildFeatureCards(),
+            Background(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  HearderHomePage(),
+                  ScoreCard(score: 820),
+                  SizedBox(height: 16),
+                  FeatureCards(),
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _buildHeader(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Stack(
-      clipBehavior: Clip.none,
+class Background extends StatelessWidget {
+  const Background({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
       children: [
-        const HearderHomePage(),
-        Positioned(
-          top: size.height * 0.27,
-          child: Container(
-            height: size.height,
-            width: size.width,
-            color: Colors.white,
-          ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.29,
+          color: const Color(0xff77127b),
         ),
-        const Positioned(
-          left: 16.0,
-          right: 16.0,
-          bottom: -110,
-          child: ScoreCard(score: 820),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.80,
+          width: double.infinity,
+          color: const Color(0xFFf8f9f9),
         ),
       ],
     );
   }
+}
 
-  Widget _buildFeatureCards() {
-    final List<ItemFeatureCard> features = [
+class FeatureCards extends StatelessWidget {
+  const FeatureCards({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final features = [
       ItemFeatureCard(
-        title: 'Consultar um CPF ou CNPJ',
-        image: 'assets/images/search_icon.png',
-        onTap: () {},
-      ),
+          title: 'Consultar um CPF ou CNPJ',
+          image: 'assets/images/search_icon.png',
+          onTap: () {}),
       ItemFeatureCard(
-        title: 'Melhorar a gestão do seu negócio',
-        image: 'assets/images/search_icon.png',
-        onTap: () {},
-      ),
+          title: 'Melhorar a gestão do seu negócio',
+          image: 'assets/images/search_icon.png',
+          onTap: () {}),
       ItemFeatureCard(
-        title: 'Cobrar clientes devedores',
-        image: 'assets/images/search_icon.png',
-        onTap: () {},
-      ),
+          title: 'Cobrar clientes devedores',
+          image: 'assets/images/search_icon.png',
+          onTap: () {}),
       ItemFeatureCard(
-        title: 'Monitorar clientes e fornecedores',
-        image: 'assets/images/search_icon.png',
-        onTap: () {},
-      ),
+          title: 'Monitorar clientes e fornecedores',
+          image: 'assets/images/search_icon.png',
+          onTap: () {}),
     ];
-    return Column(
-      children: features
-          .map((feature) => GestureDetector(
-                onTap: feature.onTap,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  child: FeatureCardWidget(
-                    title: feature.title,
-                    assetIcon: feature.image,
-                  ),
-                ),
-              ))
-          .toList(),
+
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: features.length,
+      itemBuilder: (context, index) {
+        final feature = features[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: GestureDetector(
+            onTap: feature.onTap,
+            child: FeatureCardWidget(
+              title: feature.title,
+              assetIcon: feature.image,
+            ),
+          ),
+        );
+      },
     );
   }
 }
