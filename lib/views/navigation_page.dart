@@ -16,52 +16,56 @@ class NavigationPage extends StatelessWidget {
         title: const Text('POCs'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CustomButtomWidget(
-              title: 'Exibir notificação',
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const NotificationPage();
-                }));
-              },
-            ),
-            CustomButtomWidget(
-              title: 'Inputs Page',
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const InputsPage();
-                }));
-              },
-            ),
-            CustomButtomWidget(
-              title: 'Url Launcher',
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const UrlLauncherPage();
-                }));
-              },
-            ),
-            CustomButtomWidget(
-              title: 'Home Page',
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const HomePage();
-                }));
-              },
-            ),
-            CustomButtomWidget(
-              title: 'Loader Animation Page',
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const LoaderAnimationPage();
-                }));
-              },
-            ),
-          ],
+      body: SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              CustomButtomWidget(
+                title: 'Exibir notificação',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const NotificationPage();
+                  }));
+                },
+              ),
+              CustomButtomWidget(
+                title: 'Inputs Page',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const InputsPage();
+                  }));
+                },
+              ),
+              CustomButtomWidget(
+                title: 'Url Launcher',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const UrlLauncherPage();
+                  }));
+                },
+              ),
+              CustomButtomWidget(
+                title: 'Home Page',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const HomePage();
+                  }));
+                },
+              ),
+              CustomButtomWidget(
+                title: 'Loader Animation Page',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const LoaderAnimationPage();
+                  }));
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
