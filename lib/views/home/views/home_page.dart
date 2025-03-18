@@ -21,27 +21,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  void initState() {
-    super.initState();
-
-    Future.delayed(const Duration(milliseconds: 1500)).then((_) {
-      setState(() {
-        //statusScreen = StatusScreenEnum.error;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    statusScreen = StatusScreenEnum.loading;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff77127b),
+      backgroundColor: const Color(0xFFf8f9f9),
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight),
         child: HomeAppBar(),
@@ -171,19 +153,7 @@ class FeatureCards extends StatelessWidget {
       itemBuilder: (context, index) {
         final feature = features[index];
         switch (statusScreen) {
-          case StatusScreenEnum.success:
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: GestureDetector(
-                onTap: feature.onTap,
-                child: FeatureCardWidget(
-                  title: feature.title,
-                  assetIcon: feature.image,
-                  statusFeature: feature.statusFeature,
-                ),
-              ),
-            );
-          default:
+          case StatusScreenEnum.loading:
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Container(
@@ -205,6 +175,18 @@ class FeatureCards extends StatelessWidget {
                         ],
                       ),
                     )),
+              ),
+            );
+          default:
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GestureDetector(
+                onTap: feature.onTap,
+                child: FeatureCardWidget(
+                  title: feature.title,
+                  assetIcon: feature.image,
+                  statusFeature: feature.statusFeature,
+                ),
               ),
             );
         }

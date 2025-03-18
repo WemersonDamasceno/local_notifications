@@ -15,7 +15,6 @@ class CustomButtonWidget extends StatelessWidget {
     this.icon,
   });
 
-  /// Factory para criar um botão sem ícone
   factory CustomButtonWidget({
     required String title,
     required VoidCallback onPressed,
@@ -30,7 +29,6 @@ class CustomButtonWidget extends StatelessWidget {
     );
   }
 
-  /// Factory para criar um botão com ícone
   factory CustomButtonWidget.withIcon({
     required String title,
     required VoidCallback onPressed,
@@ -49,6 +47,7 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SizedBox(
       width: sizeButton?.width,
       height: sizeButton?.height,
@@ -57,34 +56,33 @@ class CustomButtonWidget extends StatelessWidget {
               style: _buttonStyle(),
               onPressed: onPressed,
               icon: icon!,
-              label: _buttonText(),
+              label: _buttonText(size),
             )
           : ElevatedButton(
               style: _buttonStyle(),
               onPressed: onPressed,
-              child: _buttonText(),
+              child: _buttonText(size),
             ),
     );
   }
 
-  /// Estilo do botão
   ButtonStyle _buttonStyle() {
     return ElevatedButton.styleFrom(
       backgroundColor: backgroundColor,
       foregroundColor: Colors.white,
+      padding: const EdgeInsets.all(6),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
     );
   }
 
-  /// Texto do botão
-  Widget _buttonText() {
+  Widget _buttonText(Size size) {
     return Text(
       title,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.white,
-        fontSize: 14,
+        fontSize: size.width < 350 ? 12 : 14,
         fontWeight: FontWeight.w500,
       ),
     );
