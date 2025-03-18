@@ -24,6 +24,7 @@ dependencies:
       url: https://github.com/WemersonDamasceno/nova_design_system.git
       ref: main
   flutter_svg: ^2.0.17
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

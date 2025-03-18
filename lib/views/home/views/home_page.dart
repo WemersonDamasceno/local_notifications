@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/views/home/enums/status_feature_enum.dart';
+import 'package:notifications_firebase/views/home/enums/status_screen_enum.dart';
 import 'package:notifications_firebase/views/home/models/item_feature_card_model.dart';
+import 'package:notifications_firebase/views/home/widgets/background_widget.dart';
 import 'package:notifications_firebase/views/home/widgets/feature_card_widget.dart';
 import 'package:notifications_firebase/views/home/widgets/hearder_home_page.dart';
 import 'package:notifications_firebase/views/home/widgets/home_app_bar.dart';
@@ -21,12 +23,14 @@ class HomePage extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         child: Stack(
           children: [
-            const Background(),
+            const BackgroundWidget(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  const HearderHomePage(),
+                  const HearderHomePage(
+                    screenEnum: StatusScreenEnum.loading,
+                  ),
                   const ScoreCard(score: 820),
                   const SizedBox(height: 16),
                   FeatureCards(features: _getFeatures()),
@@ -64,27 +68,6 @@ class HomePage extends StatelessWidget {
         onTap: () {},
       ),
     ];
-  }
-}
-
-class Background extends StatelessWidget {
-  const Background({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.29,
-          color: const Color(0xff77127b),
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.90,
-          width: double.infinity,
-          color: const Color(0xFFf8f9f9),
-        ),
-      ],
-    );
   }
 }
 
