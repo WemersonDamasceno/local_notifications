@@ -9,11 +9,11 @@ class BackgroundWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: size.width < 350 ? size.height * 0.45 : size.height * 0.29,
+          height: size.width < 350 ? size.height * 0.45 : size.height * 0.28,
           color: const Color(0xff77127b),
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.90,
+          height: size.height * 0.90,
           width: double.infinity,
           color: const Color(0xFFf8f9f9),
         ),

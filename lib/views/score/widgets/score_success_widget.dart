@@ -53,7 +53,7 @@ class ScoreSuccessWidget extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 16),
+
         // Center(
         //   child: OutlineButtonWidget(
         //     label: 'Veja como melhorar seu Score',

@@ -38,7 +38,6 @@ class ScoreCard extends StatelessWidget {
       ),
       child: SizedBox(
         width: size.width,
-        height: size.height * 0.23,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: body,

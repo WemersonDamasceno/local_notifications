@@ -15,7 +15,7 @@ class ScoreErrorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: size.width * 0.38,
+          width: size.width * 0.37,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -41,10 +41,10 @@ class ScoreErrorWidget extends StatelessWidget {
         ),
         const SizedBox(width: 8),
         SizedBox(
-          width: size.width * 0.40,
+          width: size.width * 0.38,
           child: SvgPicture.asset(
             'assets/images/error.svg',
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
         ),
       ],
