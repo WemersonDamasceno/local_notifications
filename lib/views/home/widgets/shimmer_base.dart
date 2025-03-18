@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerItem extends StatelessWidget {
@@ -77,7 +78,7 @@ class ShimmerItem extends StatelessWidget {
       child: imagePath != null
           ? ClipRRect(
               borderRadius: BorderRadius.circular(radius),
-              child: Image.asset(
+              child: SvgPicture.asset(
                 imagePath!,
                 width: width,
                 height: height,
