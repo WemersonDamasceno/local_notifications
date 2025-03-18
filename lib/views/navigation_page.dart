@@ -24,7 +24,7 @@ class NavigationPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              CustomButtomWidget(
+              CustomButtonWidget(
                 title: 'Exibir notificação',
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -32,7 +32,7 @@ class NavigationPage extends StatelessWidget {
                   }));
                 },
               ),
-              CustomButtomWidget(
+              CustomButtonWidget(
                 title: 'Inputs Page',
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -40,7 +40,7 @@ class NavigationPage extends StatelessWidget {
                   }));
                 },
               ),
-              CustomButtomWidget(
+              CustomButtonWidget(
                 title: 'Url Launcher',
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -48,7 +48,7 @@ class NavigationPage extends StatelessWidget {
                   }));
                 },
               ),
-              CustomButtomWidget(
+              CustomButtonWidget(
                 title: 'Home Page',
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -56,7 +56,7 @@ class NavigationPage extends StatelessWidget {
                   }));
                 },
               ),
-              CustomButtomWidget(
+              CustomButtonWidget(
                 title: 'Loader Animation Page',
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {

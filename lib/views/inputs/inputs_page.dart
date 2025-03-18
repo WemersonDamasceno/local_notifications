@@ -69,7 +69,7 @@ class _InputsPageState extends State<InputsPage> with UISnackbarMixin {
                 ),
               ),
               const SizedBox(height: 24),
-              CustomButtomWidget(
+              CustomButtonWidget(
                 onPressed: () => _submitForm(),
                 title: 'Enviar',
               ),

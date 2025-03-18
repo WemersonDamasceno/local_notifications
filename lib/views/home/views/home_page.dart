@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
     Future.delayed(const Duration(milliseconds: 1500)).then((_) {
       setState(() {
-        statusScreen = StatusScreenEnum.success;
+        //statusScreen = StatusScreenEnum.error;
       });
     });
   }
@@ -78,6 +78,48 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              shape: const CircleBorder(),
+            ),
+            child: const Icon(Icons.check, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                statusScreen = StatusScreenEnum.success;
+              });
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              shape: const CircleBorder(),
+            ),
+            child: const Icon(Icons.error, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                statusScreen = StatusScreenEnum.error;
+              });
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue,
+              shape: const CircleBorder(),
+            ),
+            child: const Icon(Icons.refresh, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                statusScreen = StatusScreenEnum.loading;
+              });
+            },
+          ),
+        ],
       ),
     );
   }

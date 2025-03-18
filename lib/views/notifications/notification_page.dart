@@ -59,7 +59,7 @@ class _NotificationPageState extends State<NotificationPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: CustomButtomWidget(
+                child: CustomButtonWidget(
                   onPressed: () => onPressed(),
                   title: 'Enviar notificação',
                 ),

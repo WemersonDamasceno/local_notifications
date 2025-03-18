@@ -54,7 +54,7 @@ class BalanceWidget extends StatelessWidget {
             )
           ],
         ),
-        CustomButtomWidget(
+        CustomButtonWidget(
           title: 'Gerenciar conta',
           sizeButton: const Size(130, 46),
           backgroundColor: const Color(0xFF0FAC67),
