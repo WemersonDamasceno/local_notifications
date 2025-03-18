@@ -12,7 +12,7 @@ class ScoreCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      elevation: 4,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -34,7 +34,7 @@ class ScoreCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TweenAnimationBuilder<int>(
-                  duration: const Duration(seconds: 1),
+                  duration: const Duration(milliseconds: 700),
                   tween: IntTween(begin: 0, end: score.toInt()),
                   builder: (context, value, child) {
                     return Text(
@@ -53,7 +53,7 @@ class ScoreCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             TweenAnimationBuilder<double>(
-              duration: const Duration(seconds: 1),
+              duration: const Duration(milliseconds: 700),
               tween: Tween<double>(begin: 0, end: score),
               builder: (context, animatedScore, child) {
                 return ScoreProgressBarWidget(

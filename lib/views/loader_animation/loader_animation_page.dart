@@ -34,7 +34,7 @@ class _LoaderAnimationPageState extends State<LoaderAnimationPage> {
         width: size.width,
         child: const Center(
           child: LoaderAnimationWidget(
-            durationInMillisecs: 600,
+            durationInMillisecs: 500,
           ),
         ),
       ),
