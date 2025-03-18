@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notifications_firebase/views/home/enums/status_screen_enum.dart';
 import 'package:notifications_firebase/views/score/widgets/score_card.dart';
 import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
 
@@ -20,7 +21,10 @@ class ScorePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ScoreCard(score: score),
+            ScoreCard(
+              score: score,
+              statusScreen: StatusScreenEnum.success,
+            ),
           ],
         ),
       ),

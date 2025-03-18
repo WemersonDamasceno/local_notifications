@@ -28,12 +28,21 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  const HearderHomePage(
-                    screenEnum: StatusScreenEnum.loading,
-                  ),
-                  const ScoreCard(score: 820),
+                  Builder(builder: (context) {
+                    return const HearderHomePage(
+                      screenEnum: StatusScreenEnum.loading,
+                    );
+                  }),
+                  Builder(builder: (context) {
+                    return const ScoreCard(
+                      score: 820,
+                      statusScreen: StatusScreenEnum.loading,
+                    );
+                  }),
                   const SizedBox(height: 16),
-                  FeatureCards(features: _getFeatures()),
+                  Builder(builder: (context) {
+                    return FeatureCards(features: _getFeatures());
+                  }),
                 ],
               ),
             ),
