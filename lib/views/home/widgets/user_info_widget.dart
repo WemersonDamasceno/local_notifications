@@ -15,21 +15,13 @@ class UserInfoWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              'Olá, $userName ',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const Icon(
-              Icons.handshake,
-              color: Colors.yellow,
-            )
-          ],
+        Text(
+          'Olá, $userName 👋',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         Text(
           'CNPJ $cnpjOrCpf',

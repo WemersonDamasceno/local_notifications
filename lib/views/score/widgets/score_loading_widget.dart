@@ -25,9 +25,9 @@ class ScoreLoadingWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            ShimmerItem.secondaryColor(width: 25, height: 10),
-            ShimmerItem.secondaryColor(width: 25, height: 10),
-            ShimmerItem.secondaryColor(width: 25, height: 10),
+            ShimmerItem.secondaryColor(width: 25, height: 15),
+            ShimmerItem.secondaryColor(width: 25, height: 15),
+            ShimmerItem.secondaryColor(width: 25, height: 15),
           ],
         ),
         const SizedBox(height: 16),

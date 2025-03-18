@@ -6,10 +6,37 @@ import 'package:notifications_firebase/views/home/widgets/background_widget.dart
 import 'package:notifications_firebase/views/home/widgets/feature_card_widget.dart';
 import 'package:notifications_firebase/views/home/widgets/hearder_home_page.dart';
 import 'package:notifications_firebase/views/home/widgets/home_app_bar.dart';
+import 'package:notifications_firebase/views/home/widgets/shimmer_base.dart';
 import 'package:notifications_firebase/views/score/widgets/score_card.dart';
 
-class HomePage extends StatelessWidget {
+//SOMENTE PARA TESTES
+StatusScreenEnum statusScreen = StatusScreenEnum.loading;
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(const Duration(milliseconds: 1500)).then((_) {
+      setState(() {
+        statusScreen = StatusScreenEnum.success;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    statusScreen = StatusScreenEnum.loading;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +56,22 @@ class HomePage extends StatelessWidget {
               child: Column(
                 children: [
                   Builder(builder: (context) {
-                    return const HearderHomePage(
-                      screenEnum: StatusScreenEnum.loading,
+                    return HearderHomePage(
+                      screenEnum: statusScreen,
                     );
                   }),
                   Builder(builder: (context) {
-                    return const ScoreCard(
+                    return ScoreCard(
                       score: 820,
-                      statusScreen: StatusScreenEnum.loading,
+                      statusScreen: statusScreen,
                     );
                   }),
                   const SizedBox(height: 16),
                   Builder(builder: (context) {
-                    return FeatureCards(features: _getFeatures());
+                    return FeatureCards(
+                      features: _getFeatures(),
+                      statusScreen: statusScreen,
+                    );
                   }),
                 ],
               ),
@@ -82,8 +112,13 @@ class HomePage extends StatelessWidget {
 
 class FeatureCards extends StatelessWidget {
   final List<ItemFeatureCardModel> features;
+  final StatusScreenEnum statusScreen;
 
-  const FeatureCards({super.key, required this.features});
+  const FeatureCards({
+    super.key,
+    required this.features,
+    required this.statusScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,17 +128,44 @@ class FeatureCards extends StatelessWidget {
       itemCount: features.length,
       itemBuilder: (context, index) {
         final feature = features[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: GestureDetector(
-            onTap: feature.onTap,
-            child: FeatureCardWidget(
-              title: feature.title,
-              assetIcon: feature.image,
-              statusFeature: feature.statusFeature,
-            ),
-          ),
-        );
+        switch (statusScreen) {
+          case StatusScreenEnum.success:
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GestureDetector(
+                onTap: feature.onTap,
+                child: FeatureCardWidget(
+                  title: feature.title,
+                  assetIcon: feature.image,
+                  statusFeature: feature.statusFeature,
+                ),
+              ),
+            );
+          default:
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Container(
+                constraints: const BoxConstraints(minHeight: 110),
+                child: Card(
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerItem.secondaryColor(width: 30, height: 30),
+                          const SizedBox(height: 8),
+                          ShimmerItem.secondaryColor(width: 265, height: 25)
+                        ],
+                      ),
+                    )),
+              ),
+            );
+        }
       },
     );
   }

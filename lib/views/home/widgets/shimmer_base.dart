@@ -14,7 +14,7 @@ class ShimmerItem extends StatelessWidget {
     required this.width,
     required this.height,
     required this.baseColor,
-    this.radius = 7,
+    this.radius = 6,
     this.margin,
     this.imagePath,
   });
@@ -39,7 +39,7 @@ class ShimmerItem extends StatelessWidget {
   factory ShimmerItem.secondaryColor({
     required double width,
     required double height,
-    double radius = 7,
+    double radius = 6,
     EdgeInsets? margin,
   }) {
     return ShimmerItem._(
@@ -57,7 +57,7 @@ class ShimmerItem extends StatelessWidget {
     required double height,
     required String imagePath,
     Color? baseColor,
-    double radius = 7,
+    double radius = 6,
     EdgeInsets? margin,
   }) {
     return ShimmerItem._(
