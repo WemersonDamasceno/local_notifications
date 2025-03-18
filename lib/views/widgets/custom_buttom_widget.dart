@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notifications_firebase/utils/extensions/media_query_extension.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   final String title;
@@ -47,7 +48,6 @@ class CustomButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return SizedBox(
       width: sizeButton?.width,
       height: sizeButton?.height,
@@ -56,12 +56,12 @@ class CustomButtonWidget extends StatelessWidget {
               style: _buttonStyle(),
               onPressed: onPressed,
               icon: icon!,
-              label: _buttonText(size),
+              label: _buttonText(context),
             )
           : ElevatedButton(
               style: _buttonStyle(),
               onPressed: onPressed,
-              child: _buttonText(size),
+              child: _buttonText(context),
             ),
     );
   }
@@ -77,12 +77,12 @@ class CustomButtonWidget extends StatelessWidget {
     );
   }
 
-  Widget _buttonText(Size size) {
+  Widget _buttonText(BuildContext context) {
     return Text(
       title,
       style: TextStyle(
         color: Colors.white,
-        fontSize: size.width < 350 ? 12 : 14,
+        fontSize: context.isSmallScreen ? 12 : 14,
         fontWeight: FontWeight.w500,
       ),
     );

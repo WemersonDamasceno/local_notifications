@@ -10,21 +10,18 @@ class ScorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const PreferredSize(
+    return const Scaffold(
+      appBar: PreferredSize(
         preferredSize: Size(double.infinity, kToolbarHeight),
         child: AppBarWidget(),
       ),
-      backgroundColor: const Color(0xFFeff0f0),
+      backgroundColor: Color(0xFFeff0f0),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ScoreCard(
-              score: score,
-              statusScreen: StatusScreenEnum.success,
-            ),
+            ScoreCard(score: 820, statusScreen: StatusScreenEnum.success),
           ],
         ),
       ),

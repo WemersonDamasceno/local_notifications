@@ -39,7 +39,18 @@ class ScoreSuccessWidget extends StatelessWidget {
               },
             ),
             const SizedBox(width: 8),
-            const StatusScoreWidget(statusScore: 'Excelente'),
+            FutureBuilder(
+              future: Future.delayed(const Duration(milliseconds: 700)),
+              builder: (context, snapshot) {
+                return AnimatedOpacity(
+                  duration: const Duration(milliseconds: 300),
+                  opacity: snapshot.connectionState == ConnectionState.done
+                      ? 1.0
+                      : 0.0,
+                  child: const StatusScoreWidget(statusScore: 'Excelente'),
+                );
+              },
+            )
           ],
         ),
         const SizedBox(height: 12),

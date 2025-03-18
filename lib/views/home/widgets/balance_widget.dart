@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notifications_firebase/views/home/extensions/balance.extension.dart';
+import 'package:notifications_firebase/utils/extensions/balance.extension.dart';
 import 'package:notifications_firebase/views/widgets/custom_buttom_widget.dart';
 
 class BalanceWidget extends StatelessWidget {
