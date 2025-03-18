@@ -30,7 +30,6 @@ class ScoreLoadingWidget extends StatelessWidget {
             ShimmerItem.secondaryColor(width: 25, height: 15),
           ],
         ),
-        const SizedBox(height: 16),
         // Center(
         //   child: OutlineButtonWidget(
         //     label: 'Veja como melhorar seu Score',
