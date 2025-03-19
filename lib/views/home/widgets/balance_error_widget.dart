@@ -40,7 +40,7 @@ class BalanceErrorWidget extends StatelessWidget {
           title: 'Atualizar',
           icon: const Icon(Icons.refresh),
           backgroundColor: const Color(0xFF2A5595),
-          onPressed: () => refreshBalance,
+          onPressed: () => refreshBalance(),
         ),
       ],
     );

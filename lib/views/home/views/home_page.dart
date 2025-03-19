@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_bloc.dart';
+import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_event.dart';
+import 'package:notifications_firebase/views/home/bloc/get_user_info/get_user_info_bloc.dart';
+import 'package:notifications_firebase/views/home/bloc/get_user_info/get_user_info_event.dart';
 import 'package:notifications_firebase/views/home/enums/status_screen_enum.dart';
 import 'package:notifications_firebase/views/home/widgets/background_widget.dart';
 import 'package:notifications_firebase/views/home/widgets/feature_card_list_widget.dart';
@@ -17,9 +21,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late GetUserInfoBloc _getUserInfoBloc;
+  late GetBalanceUserBloc _getBalanceUserBloc;
+
   @override
   void initState() {
     super.initState();
+
+    _getUserInfoBloc = GetUserInfoBloc()..add(GetUserInfo());
+    _getBalanceUserBloc = GetBalanceUserBloc()..add(GetBalanceUser());
   }
 
   @override
@@ -39,7 +49,10 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  HearderHomePage(statusScreen: statusScreen),
+                  HearderHomePage(
+                    getUserInfoBloc: _getUserInfoBloc,
+                    getBalanceUserBloc: _getBalanceUserBloc,
+                  ),
                   ScoreCard(score: 820, statusScreen: statusScreen),
                   const SizedBox(height: 16),
                   FeatureCards(screenEnum: statusScreen),
@@ -84,9 +97,8 @@ class _HomePageState extends State<HomePage> {
             ),
             child: const Icon(Icons.refresh, color: Colors.white),
             onPressed: () {
-              setState(() {
-                statusScreen = StatusScreenEnum.loading;
-              });
+              _getBalanceUserBloc.add(GetBalanceUser());
+              _getUserInfoBloc.add(GetUserInfo());
             },
           ),
         ],

@@ -20,6 +20,12 @@
       "languageVersion": "2.18"
     },
     {
+      "name": "bloc",
+      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/bloc-9.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "boolean_selector",
       "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/boolean_selector-2.1.1",
       "packageUri": "lib/",
@@ -54,6 +60,12 @@
       "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/dbus-0.7.11",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "equatable",
+      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/equatable-2.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "fake_async",
@@ -108,6 +120,12 @@
       "rootUri": "file:///Users/wemersondamasceno/src/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.3"
+    },
+    {
+      "name": "flutter_bloc",
+      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/flutter_bloc-9.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
     },
     {
       "name": "flutter_lints",
@@ -206,6 +224,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "nested",
+      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "nova_design_system",
       "rootUri": "file:///Users/wemersondamasceno/.pub-cache/git/nova_design_system-ddeb56c6d28c3a8191e81f6070789ee066cdafe6/",
       "packageUri": "lib/",
@@ -276,6 +300,12 @@
       "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/plugin_platform_interface-2.1.8",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///Users/wemersondamasceno/.pub-cache/hosted/pub.dev/provider-6.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "shimmer",
@@ -440,7 +470,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2025-03-18T14:12:51.287701Z",
+  "generated": "2025-03-19T13:26:50.369419Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/wemersondamasceno/src/flutter",

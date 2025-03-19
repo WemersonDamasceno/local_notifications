@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_bloc.dart';
+import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_event.dart';
+import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_state.dart';
+import 'package:notifications_firebase/views/home/bloc/get_user_info/get_user_info_bloc.dart';
+import 'package:notifications_firebase/views/home/bloc/get_user_info/get_user_info_state.dart';
 import 'package:notifications_firebase/views/home/enums/status_screen_enum.dart';
 import 'package:notifications_firebase/views/home/widgets/balance_error_widget.dart';
 import 'package:notifications_firebase/views/home/widgets/balance_loading_widget.dart';
@@ -8,8 +14,14 @@ import 'package:notifications_firebase/views/home/widgets/user_info_loading_widg
 import 'package:notifications_firebase/views/home/widgets/user_info_widget.dart';
 
 class HearderHomePage extends StatelessWidget {
-  final StatusScreenEnum statusScreen;
-  const HearderHomePage({super.key, required this.statusScreen});
+  const HearderHomePage({
+    super.key,
+    required this.getUserInfoBloc,
+    required this.getBalanceUserBloc,
+  });
+
+  final GetUserInfoBloc getUserInfoBloc;
+  final GetBalanceUserBloc getBalanceUserBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -19,39 +31,50 @@ class HearderHomePage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //BloC para buscar os dados do usuário
-          Builder(builder: (context) {
-            switch (statusScreen) {
-              case StatusScreenEnum.success:
-                return const UserInfoWidget(
-                  userName: 'Antonio Junior',
-                  cnpjOrCpf: '37.346.765/0001-65',
-                );
-              case StatusScreenEnum.error:
-                return UserInfoErroWidget(onRefresh: () {});
-              default:
-                return const UserInfoLoadingWidget();
-            }
-          }),
+          BlocBuilder<GetUserInfoBloc, GetUserInfoState>(
+              bloc: getUserInfoBloc,
+              builder: (context, state) {
+                switch (state.statusScreen) {
+                  case StatusScreenEnum.success:
+                    return const UserInfoWidget(
+                      userName: 'Antonio Junior',
+                      cnpjOrCpf: '37.346.765/0001-65',
+                    );
+                  case StatusScreenEnum.error:
+                    return UserInfoErroWidget(onRefresh: () {});
+                  default:
+                    return const UserInfoLoadingWidget();
+                }
+              }),
           const SizedBox(height: 16),
 
           //BloC para buscar o saldo do usuário
-          Builder(builder: (context) {
-            switch (statusScreen) {
-              case StatusScreenEnum.success:
-                return BalanceWidget(
-                  balance: 231.33,
-                  refreshBalance: () {},
-                  buyCredits: () {},
-                );
-              case StatusScreenEnum.error:
-                return BalanceErrorWidget(
-                  refreshBalance: () {},
-                );
-              default:
-                return const BalanceLoadingWidget();
-            }
-          }),
+          BlocBuilder<GetBalanceUserBloc, GetBalanceUserState>(
+              bloc: getBalanceUserBloc,
+              builder: (context, state) {
+                switch (state.statusScreen) {
+                  case StatusScreenEnum.success:
+                    return BalanceWidget(
+                      balance: 231.33,
+                      refreshBalance: () {
+                        getBalanceUserBloc.add(
+                          GetBalanceUser(),
+                        );
+                      },
+                      buyCredits: () {},
+                    );
+                  case StatusScreenEnum.error:
+                    return BalanceErrorWidget(
+                      refreshBalance: () {
+                        getBalanceUserBloc.add(
+                          GetBalanceUser(),
+                        );
+                      },
+                    );
+                  default:
+                    return const BalanceLoadingWidget();
+                }
+              }),
         ],
       ),
     );

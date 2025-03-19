@@ -48,7 +48,7 @@ class BalanceWidget extends StatelessWidget {
                     color: Colors.white,
                     size: 21,
                   ),
-                  onTap: () => refreshBalance,
+                  onTap: () => refreshBalance(),
                 ),
               ],
             )
