@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notifications_firebase/views/home/enums/status_screen_enum.dart';
+import 'package:notifications_firebase/views/home/bloc/get_score/get_score_bloc.dart';
 import 'package:notifications_firebase/views/score/widgets/score_card.dart';
 import 'package:notifications_firebase/views/widgets/app_bar_widget.dart';
 
@@ -10,18 +10,20 @@ class ScorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: PreferredSize(
+    return Scaffold(
+      appBar: const PreferredSize(
         preferredSize: Size(double.infinity, kToolbarHeight),
         child: AppBarWidget(),
       ),
-      backgroundColor: Color(0xFFeff0f0),
+      backgroundColor: const Color(0xFFeff0f0),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ScoreCard(score: 820, statusScreen: StatusScreenEnum.success),
+            ScoreCard(
+              getScoreBloc: GetScoreBloc(),
+            ),
           ],
         ),
       ),

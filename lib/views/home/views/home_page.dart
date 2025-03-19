@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_bloc.dart';
 import 'package:notifications_firebase/views/home/bloc/get_balance_user/get_balance_user_event.dart';
+import 'package:notifications_firebase/views/home/bloc/get_score/get_score_bloc.dart';
+import 'package:notifications_firebase/views/home/bloc/get_score/get_score_event.dart';
 import 'package:notifications_firebase/views/home/bloc/get_user_info/get_user_info_bloc.dart';
 import 'package:notifications_firebase/views/home/bloc/get_user_info/get_user_info_event.dart';
 import 'package:notifications_firebase/views/home/enums/status_screen_enum.dart';
@@ -23,6 +25,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late GetUserInfoBloc _getUserInfoBloc;
   late GetBalanceUserBloc _getBalanceUserBloc;
+  late GetScoreBloc _getScoreBloc;
 
   @override
   void initState() {
@@ -30,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
     _getUserInfoBloc = GetUserInfoBloc()..add(GetUserInfo());
     _getBalanceUserBloc = GetBalanceUserBloc()..add(GetBalanceUser());
+    _getScoreBloc = GetScoreBloc()..add(GetScore());
   }
 
   @override
@@ -53,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                     getUserInfoBloc: _getUserInfoBloc,
                     getBalanceUserBloc: _getBalanceUserBloc,
                   ),
-                  ScoreCard(score: 820, statusScreen: statusScreen),
+                  ScoreCard(getScoreBloc: _getScoreBloc),
                   const SizedBox(height: 16),
                   FeatureCards(screenEnum: statusScreen),
                 ],
