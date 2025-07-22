@@ -7,25 +7,42 @@ class PhoneOrEmailFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    String text = newValue.text;
+    final newText = newValue.text;
+    final baseOffset = newValue.selection.baseOffset;
 
+    String text = newText;
+
+    // EMAIL
     if (text.containsLetter) {
-      text = text.removeSpecialCharacters;
-    } else {
-      text = text.removeNonDigits;
-      text = _formatPhoneNumber(text);
+      final cleaned = text.removeSpecialCharacters;
+
+      // Ajusta posição do cursor se algo foi removido
+      final diff = text.length - cleaned.length;
+      final newOffset = (baseOffset - diff).clamp(0, cleaned.length);
+
+      return TextEditingValue(
+        text: cleaned,
+        selection: TextSelection.collapsed(offset: newOffset),
+      );
     }
 
+    // TELEFONE
+    final onlyDigits = text.removeNonDigits;
+    final formatted = _formatPhoneNumber(onlyDigits);
+
+    final offset = _calculateCursorPosition(
+      oldValue.text,
+      newText,
+      formatted,
+      baseOffset,
+    );
+
     return TextEditingValue(
-      text: text,
-      selection: newValue.selection.copyWith(
-        baseOffset: text.length,
-        extentOffset: text.length,
-      ),
+      text: formatted,
+      selection: TextSelection.collapsed(offset: offset),
     );
   }
 
-  /// Formata um número de telefone
   String _formatPhoneNumber(String text) {
     text = text.substring(0, text.length.clamp(0, 11));
 
@@ -36,5 +53,27 @@ class PhoneOrEmailFormatter extends TextInputFormatter {
     ];
 
     return patterns.join();
+  }
+
+  int _calculateCursorPosition(
+    String oldText,
+    String newText,
+    String formatted,
+    int baseOffset,
+  ) {
+    final digitsBeforeCursor =
+        newText.substring(0, baseOffset).replaceAll(RegExp(r'\D'), '').length;
+
+    int digitCount = 0;
+    for (int i = 0; i < formatted.length; i++) {
+      if (RegExp(r'\d').hasMatch(formatted[i])) {
+        digitCount++;
+      }
+      if (digitCount == digitsBeforeCursor) {
+        return i + 1;
+      }
+    }
+
+    return formatted.length;
   }
 }
