@@ -2,6 +2,8 @@ import 'package:flutter/services.dart';
 import 'package:notifications_firebase/views/inputs/extensions/extension_string.dart';
 
 class PhoneOrEmailFormatter extends TextInputFormatter {
+  static const int maxDigits = 11;
+
   @override
   TextEditingValue formatEditUpdate(
     TextEditingValue oldValue,
@@ -10,14 +12,10 @@ class PhoneOrEmailFormatter extends TextInputFormatter {
     final newText = newValue.text;
     final baseOffset = newValue.selection.baseOffset;
 
-    String text = newText;
-
     // EMAIL
-    if (text.containsLetter) {
-      final cleaned = text.removeSpecialCharacters;
-
-      // Ajusta posição do cursor se algo foi removido
-      final diff = text.length - cleaned.length;
+    if (newText.containsLetter) {
+      final cleaned = newText.removeSpecialCharacters;
+      final diff = newText.length - cleaned.length;
       final newOffset = (baseOffset - diff).clamp(0, cleaned.length);
 
       return TextEditingValue(
@@ -27,9 +25,15 @@ class PhoneOrEmailFormatter extends TextInputFormatter {
     }
 
     // TELEFONE
-    final onlyDigits = text.removeNonDigits;
-    final formatted = _formatPhoneNumber(onlyDigits);
+    final newDigits = newText.removeNonDigits;
+    final oldDigits = oldValue.text.removeNonDigits;
 
+    // Bloqueia se ultrapassar o limite de dígitos
+    if (newDigits.length > maxDigits && newDigits.length >= oldDigits.length) {
+      return oldValue;
+    }
+
+    final formatted = _formatPhoneNumber(newDigits);
     final offset = _calculateCursorPosition(
       oldValue.text,
       newText,
@@ -44,7 +48,7 @@ class PhoneOrEmailFormatter extends TextInputFormatter {
   }
 
   String _formatPhoneNumber(String text) {
-    text = text.substring(0, text.length.clamp(0, 11));
+    text = text.substring(0, text.length.clamp(0, maxDigits));
 
     final patterns = [
       if (text.length > 2) '(${text.substring(0, 2)}) ',
