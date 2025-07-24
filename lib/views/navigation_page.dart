@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notifications_firebase/views/chart_flutter/views/chart_flutter_view.dart';
 import 'package:notifications_firebase/views/home/views/home_page.dart';
 import 'package:notifications_firebase/views/inputs/inputs_page.dart';
 import 'package:notifications_firebase/views/loader_animation/loader_animation_page.dart';
@@ -61,6 +62,14 @@ class NavigationPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const LoaderAnimationPage();
+                  }));
+                },
+              ),
+              CustomButtonWidget(
+                title: 'Chart Flutter',
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const ChartFlutterView();
                   }));
                 },
               ),
