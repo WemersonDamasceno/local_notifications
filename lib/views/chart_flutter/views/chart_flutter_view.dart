@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChartFlutterView extends StatelessWidget {
   const ChartFlutterView({super.key});
 
-  final int oldScore = 700;
+  final int oldScore = 2;
   final int currentScore = 900;
   final int maxScore = 1000;
 
@@ -105,39 +105,41 @@ class ChartFlutterView extends StatelessWidget {
     required Color color,
     required String label,
   }) {
-    final double ratio = value / maxScore;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // Essa parte cresce proporcional
+        // Stack que desenha a barra e o valor logo acima
         Expanded(
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: FractionallySizedBox(
-              heightFactor: ratio,
-              alignment: Alignment.bottomCenter,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final double maxHeight = constraints.maxHeight;
+              final double ratio = value / maxScore;
+              final double barHeight =
+                  (maxHeight * ratio).clamp(1.0, maxHeight);
+
+              return Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
-                  Text(
-                    value.toString(),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  // Barra proporcional
+                  Container(
+                    width: 30,
+                    height: barHeight,
+                    decoration: BoxDecoration(
+                      color: color,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  // <- Aqui trocamos o Container por um Expanded
-                  Expanded(
-                    child: Container(
-                      width: 24,
-                      decoration: BoxDecoration(
-                        color: color,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
+                  // Valor logo acima da barra
+                  Positioned(
+                    bottom: barHeight + 4,
+                    child: Text(
+                      value.toString(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
-              ),
-            ),
+              );
+            },
           ),
         ),
         const SizedBox(height: 4),
